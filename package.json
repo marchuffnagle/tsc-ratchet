@@ -1,0 +1,27 @@
+{
+  "name": "tsc-ratchet",
+  "version": "1.0.0",
+  "description": "Gradually reduce TypeScript errors",
+  "scripts": {
+    "lint": "npm run lint:tsc",
+    "lint:tsc": "./bin/tsc-ratchet.sh",
+    "lint:tsc:ci": "env CI=true npm run lint:tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marchuffnagle/tsc-ratchet.git"
+  },
+  "keywords": [
+    "eslint",
+    "ratchet"
+  ],
+  "author": "Marc Huffnagle <marc@huffnagle.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marchuffnagle/tsc-ratchet/issues"
+  },
+  "homepage": "https://github.com/marchuffnagle/tsc-ratchet#readme",
+  "devDependencies": {
+    "typescript": "^4.5.2"
+  }
+}
