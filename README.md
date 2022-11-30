@@ -1,5 +1,9 @@
 # tsc-ratchet
 
+## DEPRECATED
+
+This package has been deprecated in favor of a pure JavaScript implementation. Please use the [tsc-ratchet](https://www.npmjs.com/package/tsc-ratchet) npm package instead of this repository.
+
 ## Overview
 
 When you first introduce [TypeScript](https://www.typescriptlang.org/) on a project, the number of reported errors can be overwhelming. Fixing all of them at once is often not realistic. `tsc-ratchet` aims to help you make incremental improvement toward improving your TypeScript code.
