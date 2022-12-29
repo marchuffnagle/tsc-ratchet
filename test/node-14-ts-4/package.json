@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "my-lib": "../my-lib"
+  },
+  "devDependencies": {
+    "tsc-ratchet": "../../",
+    "typescript": "^4.0.0"
+  }
+}

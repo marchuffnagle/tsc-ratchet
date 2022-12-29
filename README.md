@@ -1,27 +1,59 @@
 # tsc-ratchet
 
-## DEPRECATED
+Adding [TypeScript](https://www.typescriptlang.org/) to a project can be an overwhelming task. A large codebase can have thousands of errors reported by the TypeScript compiler. That's where tsc-ratchet comes in. Instead of fixing everything at once, tsc-ratchet helps ensure that things get better over time.
 
-This package has been deprecated in favor of a pure JavaScript implementation. Please use the [tsc-ratchet](https://www.npmjs.com/package/tsc-ratchet) npm package instead of this repository.
+When you first run tsc-ratchet , it counts the number of errors reported by `tsc` and records that as the "high water mark".
 
-## Overview
+If the number of reported errors increases, then tsc-ratchet will fail and report how many new errors have been discovered.
 
-When you first introduce [TypeScript](https://www.typescriptlang.org/) on a project, the number of reported errors can be overwhelming. Fixing all of them at once is often not realistic. `tsc-ratchet` aims to help you make incremental improvement toward improving your TypeScript code.
+When the number of reported errors _decreases_, tsc-ratchet records that as the new high water mark, and that lower number is now your upper limit. As time goes on, that limit should approach zero.
 
-`tsc-ratchet` keeps track of how many TypeScript errors are being reported. This is the "high water mark", the number of reported errors that can't be exceeded. When you call `npm run lint:tsc`, it compares the current number of errors reported with the high water mark.
+If you find this utility useful, you may also be interested in [eslint-ratchet](https://www.npmjs.com/package/eslint-ratchet).
 
-- If the number of errors have increased, it returns a failure status.
-- If the number of errors has stayed the same, it returns a success status.
-- If the number of errors has decreased, it stores that new number as the new high water mark and reports success. It essentially "ratchets down" the number of permitted errors.
-- If running in CI mode (`CI` environment variable is "true"), and the number of reported errors is less than the high water mark, it returns a failure status. If this is the case, the high water mark value needs to be updated and committed to git.
+## Install
+
+```sh
+npm install --save-dev tsc-ratchet
+```
 
 ## Usage
 
-- Copy [bin/tsc-ratchet.sh](bin/tsc-ratchet.sh) into your project's `bin/` directory
-- Add the `lint`, `lint:tsc`, and `lint:tsc:ci` scripts from [package.json](package.json) into your project's `package.json` file
-- Update your CI scripts to run `npm run lint:tsc:ci`
-- After making chagnes and before committing, execute `npm run lint:tsc`. If you have reduced the number of linter errors, the [.tsc-ratchet](.tsc-ratchet) file will have been updated with the new high water mark. Include that `.tsc-ratchet` file in your commit.
+These instructions assume that you already have TypeScript configured for your project.
+
+Run tsc-ratchet with:
+
+```sh
+$ npx tsc-ratchet
+New tsc-ratchet high water mark: 123
+```
+
+The first time you run, the number of reported errors will be written to a `.tsc-ratchet` file. Another file called `.tsc-ratchet.log` will be created that contains the list of errors reported by `tsc`. These two files should be added to your git repository.
+
+Once you've fixed some TypeScript errors, run again.
+
+```sh
+$ npx tsc-ratchet
+tsc errors decreased from 123 to 101.
+```
+
+At this point, 101 is your new high water mark.
+
+If you introduce new errors, then tsc-ratchet will fail and report the increase.
+
+```sh
+$ npx tsc-ratchet
+tsc errors increased from 101 to 105.
+>> 1
+```
+
+The `.tsc-ratchet.log` file is helpful for determining where you've introduced new errors. Using git diff, you can get an idea of where the new errors are. (Note that the errors stored in the log file don't contain line numbers. Because code changes often result in line number changes, including the line numbers of the errors makes the diff much harder to read.)
+
+When you're happy with the changes you've made, make sure to include `.tsc-ratchet` and `.tsc-ratchet.log` in your commit.
+
+## CI mode
+
+When the `CI` environment variable is set to `"true"`, tsc-ratchet will require that the number of reported errors _exactly_ match the value stored in `.tsc-ratchet`. If fewer errors are reported, that's an indication that you probably reduced the number of errors but forgot to commit your updated `.tsc-ratchet` file.
 
 ## Credits
 
-This project is inspired by the [quality](https://rubygems.org/gems/quality) Ruby gem.
+The idea for tsc-ratchet came from the excellent [quality](https://rubygems.org/gems/quality) Ruby gem.
