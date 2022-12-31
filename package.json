@@ -1,6 +1,6 @@
 {
   "name": "tsc-ratchet",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Utility to ratchet down TypeScript errors.",
   "bin": "./dist/cli.js",
   "files": [
@@ -10,14 +10,14 @@
     "prepublishOnly": "tsc",
     "test": "./test.sh"
   },
-  "homepage": "https://codeberg.org/marchuffnagle/tsc-ratchet#tsc-ratchet",
+  "homepage": "https://github.com/marchuffnagle/tsc-ratchet#tsc-ratchet",
   "bugs": {
-    "url": "https://codeberg.org/marchuffnagle/tsc-ratchet/issues",
+    "url": "https://github.com/marchuffnagle/tsc-ratchet/issues",
     "email": "marc@huffnagle.net"
   },
   "repository": {
     "type": "git",
-    "url": "https://codeberg.org/marchuffnagle/tsc-ratchet.git"
+    "url": "https://github.com/marchuffnagle/tsc-ratchet.git"
   },
   "keywords": [
     "typescript"
